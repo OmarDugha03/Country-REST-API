@@ -5,17 +5,17 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-
-import Link from 'next/link'
-
-import { fetchCountries } from '@/lib/action'
 import { Button } from './ui/button'
-
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useDebouncedCallback } from 'use-debounce'
 const formSchema = z.object({
   countryNames: z.string().min(2)
 })
 
 const Search = ({}) => {
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const { replace } = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
   })
@@ -32,6 +32,15 @@ const Search = ({}) => {
     { id: 6, name: 'Oceanian', unavailable: false }
   ]
 
+  const handleSearch = useDebouncedCallback((term: string) => {
+    const params = new URLSearchParams(searchParams)
+    if (term) {
+      params.set('search', term)
+    } else {
+      params.delete('search')
+    }
+    replace(`${pathname}?${params.toString()}`)
+  }, 300)
   return (
     <section className='mx-4 mt-12 flex  flex-col gap-x-3 gap-y-4 lg:flex-row'>
       <div className='flex w-full items-center gap-x-3 gap-y-4'>
@@ -50,6 +59,10 @@ const Search = ({}) => {
                       placeholder='Enter country name'
                       className='w-full'
                       {...field}
+                      onChange={e => {
+                        handleSearch(e.target.value)
+                      }}
+                      defaultValue={searchParams.get('query')?.toString()}
                     />
                   </FormControl>
                 </FormItem>

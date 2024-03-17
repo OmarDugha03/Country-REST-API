@@ -26,3 +26,12 @@ export async function fetchBorderNames(codes: string) {
 
   return res.json()
 }
+export async function fetchByReg(region: string): Promise<CountryData[]> {
+  const res = await fetch(`https://restcountries.com/v3.1/region/${region}`)
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch data')
+  }
+
+  return res.json()
+}
