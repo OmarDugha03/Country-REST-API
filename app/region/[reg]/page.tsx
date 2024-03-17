@@ -15,11 +15,13 @@ const page = async ({
       return data
     }
     //@ts-ignore
-    return item.name.common.toLocaleLowerCase().includes(search)
+    return item.name.common
+      .toLocaleLowerCase()
+      .includes(search.toLocaleLowerCase())
   })
   return (
     <>
-      <Search />
+      <Search reg={reg} />
       <div className='container mt-7 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
         {filteredData.map((i: any) => (
           <CountryCard

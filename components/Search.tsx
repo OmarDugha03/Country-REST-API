@@ -1,5 +1,4 @@
 'use client'
-
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -8,14 +7,16 @@ import { Input } from '@/components/ui/input'
 import { Button } from './ui/button'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useDebouncedCallback } from 'use-debounce'
+import { useState } from 'react'
+
 const formSchema = z.object({
   countryNames: z.string().min(2)
 })
 
-const Search = ({}) => {
+const Search = ({ reg }: { reg?: string }) => {
   const searchParams = useSearchParams()
   const pathname = usePathname()
-  const { replace } = useRouter()
+  const { replace, push } = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
   })
@@ -23,15 +24,6 @@ const Search = ({}) => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
   }
-  const reg = [
-    { id: 1, name: 'All', unavailable: false },
-    { id: 2, name: 'Africa', unavailable: false },
-    { id: 3, name: 'Asia', unavailable: false },
-    { id: 4, name: 'America', unavailable: false },
-    { id: 5, name: 'Europe', unavailable: false },
-    { id: 6, name: 'Oceanian', unavailable: false }
-  ]
-
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams)
     if (term) {
@@ -41,8 +33,31 @@ const Search = ({}) => {
     }
     replace(`${pathname}?${params.toString()}`)
   }, 300)
+  const regions = [
+    {
+      id: 1,
+      name: 'Africa'
+    },
+    {
+      id: 2,
+      name: 'America'
+    },
+    {
+      id: 3,
+      name: 'Asia'
+    },
+    {
+      id: 4,
+      name: 'Europe'
+    },
+    {
+      id: 5,
+      name: 'Oceania'
+    }
+  ]
+  const [open, setOpen] = useState(false)
   return (
-    <section className='mx-4 mt-12 flex  flex-col gap-x-3 gap-y-4 lg:flex-row'>
+    <section className='gap-x- container mx-4 mt-12  flex flex-col gap-y-4 lg:flex-row'>
       <div className='flex w-full items-center gap-x-3 gap-y-4'>
         <Form {...form}>
           <form
@@ -71,6 +86,29 @@ const Search = ({}) => {
           </form>
         </Form>
         <Button>Search</Button>
+      </div>
+      <div className='relative me-5'>
+        <Button
+          onClick={() => setOpen(!open)}
+          className='group h-12 w-44 bg-slate-100 text-xl text-black  dark:bg-slate-900  dark:text-slate-100'
+        >
+          <span className='text-center group-hover:text-black'>
+            {reg || 'All '}
+          </span>
+        </Button>
+        {open && (
+          <div className='absolute top-[55px] z-20 flex h-[200px] w-44 cursor-pointer flex-col gap-y-3 rounded-md px-3 py-4   dark:bg-slate-900 dark:text-slate-100'>
+            {regions.map(regs => (
+              <span
+                className='cursor-pointer hover:underline'
+                key={regs.id}
+                onClick={() => push(`/region/${regs.name}`)}
+              >
+                {regs.name}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
