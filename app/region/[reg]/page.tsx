@@ -21,7 +21,9 @@ const page = async ({
   })
   return (
     <>
-      <Search reg={reg} />
+      <div className='container'>
+        <Search reg={reg} />
+      </div>
       <div className='container mt-7 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
         {filteredData.map((i: any) => (
           <CountryCard

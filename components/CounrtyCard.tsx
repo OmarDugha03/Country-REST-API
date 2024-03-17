@@ -24,7 +24,7 @@ const CountryCard = ({
         alt={`Flag of ${name}`}
         width={264}
         height={500}
-        className='aspect-[18/11] w-full'
+        className='aspect-[18/11] w-full rounded-t-md'
       />
       <div className='flex flex-col gap-2 p-6 pb-8'>
         <h2 className='country-title mb-2'>{name}</h2>

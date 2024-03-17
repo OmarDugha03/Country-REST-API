@@ -57,7 +57,7 @@ const Search = ({ reg }: { reg?: string }) => {
   ]
   const [open, setOpen] = useState(false)
   return (
-    <section className='gap-x- container mx-4 mt-12  flex flex-col gap-y-4 lg:flex-row'>
+    <section className='mt-12   flex  flex-col gap-x-3 gap-y-4 lg:flex-row'>
       <div className='flex w-full items-center gap-x-3 gap-y-4'>
         <Form {...form}>
           <form
