@@ -26,6 +26,7 @@ const Search = ({ reg }: { reg?: string }) => {
   }
   const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams)
+
     if (term) {
       params.set('search', term)
     } else {
@@ -57,12 +58,12 @@ const Search = ({ reg }: { reg?: string }) => {
   ]
   const [open, setOpen] = useState(false)
   return (
-    <section className='mt-12   flex  flex-col gap-x-3 gap-y-4 lg:flex-row'>
+    <section className='mt-12   flex w-full flex-col gap-x-3 gap-y-4 lg:flex-row'>
       <div className='flex w-full items-center gap-x-3 gap-y-4'>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='w-[50%] space-y-8'
+            className='w-full space-y-8 lg:w-[50%]'
           >
             <FormField
               control={form.control}
