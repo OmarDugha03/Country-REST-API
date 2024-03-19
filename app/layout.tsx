@@ -7,6 +7,7 @@ import Navbar from '@/components/Navbar'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
+  manifest: '/manifest.json',
   title: 'Where in the World ?',
   description:
     'Welcome to World Explorer, your passport to a global adventure! With our app, you can embark on a journey of discovery and explore the rich diversity of countries around the world from the comfort of your own device.'
