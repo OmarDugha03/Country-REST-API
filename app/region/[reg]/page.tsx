@@ -13,8 +13,9 @@ const page = async ({
   const filteredData = data.filter(item => {
     if (!search) {
       return data
+    } else if (item.name.common === 'Israel') {
+      return null
     }
-    //@ts-ignore
     return item.name.common
       .toLocaleLowerCase()
       .includes(search.toLocaleLowerCase())

@@ -12,6 +12,8 @@ export default async function Home({
   const filteredData = data.filter(item => {
     if (!search) {
       return data
+    } else if (item.name.common === 'Israel') {
+      return null
     }
 
     return (
@@ -21,7 +23,6 @@ export default async function Home({
         .includes(search.toLocaleLowerCase())
     )
   })
-
   return (
     <main className='container '>
       <Search />
